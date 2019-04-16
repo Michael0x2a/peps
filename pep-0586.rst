@@ -250,10 +250,10 @@ The following parameters are intentionally disallowed by design:
 The following are provisionally disallowed for simplicity. We can consider
 allowing them on a case-by-case basis based on demand.
 
--  Floats: e.g. ``Literal[3.14]``. Note: if we do decide to allow
+-  Floats: e.g. ``Literal[3.14]``. Note: if we do decide to allow
    floats, we should likely disallow literal infinity and literal NaN.
 
--  Any: e.g. ``Literal[Any]`` Note: the semantics of what exactly
+-  Any: e.g. ``Literal[Any]`` Note: the semantics of what exactly
    ``Literal[Any]`` means would need to be clarified first.
 
 Parameters at runtime
@@ -290,7 +290,7 @@ enum member?
 
 In cases like these, we always assume the user meant to construct a
 literal string. If the user wants a forward reference, they must wrap
-the entire literal type in a string -- e.g. ``"Literal[Color.RED]"``.
+the entire literal type in a string -- e.g. ``"Literal[Color.RED]"``.
 
 Literals, enums, and Any
 ------------------------
