@@ -248,13 +248,15 @@ The following parameters are intentionally disallowed by design:
    only types, never over values.
 
 The following are provisionally disallowed for simplicity. We can consider
-allowing them on a case-by-case basis based on demand.
+allowing them in future extensions of this PEP.
 
--  Floats: e.g. ``Literal[3.14]``. Note: if we do decide to allow
-   floats, we should likely disallow literal infinity and literal NaN.
-
--  Any: e.g. ``Literal[Any]`` Note: the semantics of what exactly
-   ``Literal[Any]`` means would need to be clarified first.
+-  Floats: e.g. ``Literal[3.14]``. Representing Literals of infinity or NaN
+   in a clean way is tricky; real-world APIs are unlikely to vary their
+   behavior based on a float parameter.
+  
+-  Any: e.g. ``Literal[Any]``. ``Any`` is a type, and ``Literal[...]`` is
+   meant to be values only. It is also unclear what ``Literal[Any]`` would
+   actually semantically mean.
 
 Parameters at runtime
 ---------------------
@@ -291,26 +293,6 @@ enum member?
 In cases like these, we always assume the user meant to construct a
 literal string. If the user wants a forward reference, they must wrap
 the entire literal type in a string -- e.g. ``"Literal[Color.RED]"``.
-
-Literals, enums, and Any
-------------------------
-
-Another ambiguity is when the user attempts to use some expression that
-is meant to be an enum but is actually of type ``Any``. For example,
-suppose a user attempts to import an enum from a package with no type hints::
-
-   from typing import Literal
-   from lib_with_no_types import SomeEnum  # SomeEnum has type 'Any'!
-
-   # x has type `Literal[Any]` due to the bad import
-   x: Literal[SomeEnum.FOO]
-
-Because ``Literal`` may not be parameterized by ``Any``, this program
-is *illegal*: the type checker should report an error with the last line.
-
-In short, while ``Any`` may effectively be used as a placeholder for any
-arbitrary *type*, it is currently **not** allowed to serve as a placeholder
-for any arbitrary *value*.
 
 Type inference
 ==============
